@@ -1,9 +1,14 @@
 import React from 'react'
+import Notes from './Notes'
 
 export default function Home() {
+
+
     return (
         <>
-            <h1>This is e-Notebook</h1>
+
+            <Notes />
+
         </>
     )
 }
