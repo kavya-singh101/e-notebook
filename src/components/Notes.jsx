@@ -1,11 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import noteContext from '../context/notes/noteContext'
 import Noteitem from './Noteitem'
 import AddNote from './AddNote'
 
 export default function Notes() {
     const context = useContext(noteContext)
-    const { notes, addNote, delNote, editNote } = context
+    const { notes, getNotes } = context
+
+
+    // work like documentdidmount
+    useEffect(()=>{
+        getNotes()
+    },[])
     return (
         <div>
             <AddNote/>
