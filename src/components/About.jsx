@@ -6,7 +6,7 @@ const About = () => {
   return (
 
     <>
-      <div className="responsive-container-block bigContainer">
+      <div className="responsive-container-block bigContainer" style={{width:"100%"}}>
   <div className="responsive-container-block Container">
     <p className="text-blk heading">
       About Us

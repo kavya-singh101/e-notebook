@@ -36,23 +36,35 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag })
     });
+    const json = await response.json();
+    // console.log(json)
 
-    const note = {
-      "_id": "66d440c5c3fea80tfe9d4036",
-      "user": "66d2e546b976ed21dded2222",
-      "title": `${title} Added`,
-      "description": `${description} Added`,
-      "tag": "cheen tapak dam dam",
-      "date": "2024-09-01T10:24:05.242Z",
-      "__v": 0,
-      "Update": `${Date.now()}`
-    }
-    setNotes(notes.concat(note))
+    // const note = {
+    //   "_id": "66d440c5c3fea80tfe9d4036",
+    //   "user": "66d2e546b976ed21dded2222",
+    //   "title": title,
+    //   "description": description,
+    //   "tag": tag,
+    //   "date": "2024-09-08T08:07:45.997Z",
+    //   "Update": "2024-09-08T08:07:45.997Z",
+    //   "__v": 0
+
+    // }
+    getNotes()
+    // setNotes(notes.concat(note))
   }
 
   // Delete Note
-  const delNote = (id) => {
-    // console.log(id)
+  const delNote = async (id) => {
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZkMmU1NDZiOTc2ZWQyMWRkZWQyMjIyIn0sImlhdCI6MTcyNTE4MDYxMn0.xolByMk6osNq6pQnUTHRwCaECqS87exxYARtX9yBuyA'
+      }
+    });
+    const json = await response.json();
+    console.log(json)
     const newNote = notes.filter((note) => { return note._id !== id })
     setNotes(newNote)
   }
@@ -61,7 +73,7 @@ const NoteState = (props) => {
   const editNote = async (id, title, description, tag) => {
     // API call
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZkMmU1NDZiOTc2ZWQyMWRkZWQyMjIyIn0sImlhdCI6MTcyNTE4MDYxMn0.xolByMk6osNq6pQnUTHRwCaECqS87exxYARtX9yBuyA'
@@ -72,15 +84,18 @@ const NoteState = (props) => {
     const json = response.json();
 
     // client side
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element._id == id) {
-        element.title = title
-        element.description = description
-        element.tag = tag
-      }
+    getNotes();
+    // for (let index = 0; index < notes.length; index++) {
+    //   const element = notes[index];
+    //   if (element._id === id) {
+    //     notes[index].title = title
+    //     notes[index].description = description
+    //     notes[index].tag = tag
+    //   }
+    //   break
 
-    }
+    // }
+    // setNotes(notes)
   }
 
   return (
