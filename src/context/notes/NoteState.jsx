@@ -36,7 +36,12 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag })
     });
-    const json = await response.json();
+
+
+    // client side
+    // const json = await response.json();
+    const note=await response.json()
+    setNotes(notes.concat(note))
     // console.log(json)
 
     // const note = {
@@ -50,7 +55,7 @@ const NoteState = (props) => {
     //   "__v": 0
 
     // }
-    getNotes()
+    // getNotes()
     // setNotes(notes.concat(note))
   }
 
@@ -81,9 +86,12 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag })
     });
 
-    const json = response.json();
-
     // client side
+    const json = response.json();
+    // const note=await response.json()
+    // setNotes(notes.concat(note))
+
+    
     getNotes();
     // for (let index = 0; index < notes.length; index++) {
     //   const element = notes[index];

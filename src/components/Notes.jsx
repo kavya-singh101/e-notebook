@@ -55,11 +55,11 @@ export default function Notes() {
                             <form className='my-3'>
                                 <div className="mb-3">
                                     <label htmlFor="title" className="form-label">Title</label>
-                                    <input type="text" className="form-control" value={note.etitle} id="etitle" name='etitle' aria-describedby="emailHelp" onChange={onChange} />
+                                    <input type="text" className="form-control" minLength={5} required value={note.etitle} id="etitle" name='etitle' aria-describedby="emailHelp" onChange={onChange} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="description" className="form-label">Description</label>
-                                    <input type="text" className="form-control" value={note.edescription} id="edescription" name="edescription" onChange={onChange} />
+                                    <input type="text" className="form-control" minLength={5} required value={note.edescription} id="edescription" name="edescription" onChange={onChange} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="tag" className="form-label">Tag</label>
@@ -70,13 +70,16 @@ export default function Notes() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" ref={refclose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" onClick={handleClick} className="btn btn-primary">Save changes</button>
+                            <button type="button" disabled={note.edescription.length<5 || note.etitle.length<5} onClick={handleClick} className="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="row my-3">
                 <h1>Your Notes</h1>
+                <div className="conatiner mx-2">
+                    {notes.length===0 && "Nothing to display"}
+                </div>
                 {notes.map((note) => {
                     return <Noteitem key={note._id} updateNote={updateNote} note={note} />
                 })}

@@ -70,7 +70,7 @@ router.post('/login', [
   body("email", "Enter a valid mail").isEmail(),
   body("password", "Password can't be blank").exists(),
 ], async (req, res) => {
-
+  let success = false;
 
   // If error detected then return bad request and errors
   const errors = validationResult(req);
@@ -89,7 +89,8 @@ router.post('/login', [
     // comparing password if email is valid
     const passwordCompare = await bcrypt.compare(password, user.password)
     if (!passwordCompare) {
-      return res.status(500).json({ errors: "Invalid username or password" })
+      success = false;
+      return res.status(500).json({ success, errors: "Invalid username or password" })
     }
 
 
@@ -102,7 +103,8 @@ router.post('/login', [
 
     const authToken = jwt.sign(payload, JWT_SECRET)
     // console.log(jwtData)
-    res.json({ authToken })
+    success = true
+    res.json({ success, authToken })
 
   } catch (error) {
     console.error(error.meaage)
