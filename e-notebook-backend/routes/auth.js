@@ -18,11 +18,11 @@ router.post('/createuser', [
   body("password").isLength({ min: 8 }),
 ], async (req, res) => {
 
-
+  let success = false;
   // If error detected then return bad request and errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
   }
 
 
@@ -31,11 +31,13 @@ router.post('/createuser', [
     // check weather user with the same email existed
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(400).json({ meaage: "User with this email already exist" })
+      return res.status(400).json({ success,meaage: "User with this email already exist" })
     }
 
     const salt = await bcrypt.genSalt(10);
     const securePass = await bcrypt.hash(req.body.password, salt);
+
+    // console.log(securePass);
 
     // creating user
     user = await User.create({
@@ -50,7 +52,10 @@ router.post('/createuser', [
     // making token using user id and a secret string 
     const authToken = jwt.sign(data, JWT_SECRET)
     // console.log(jwtData)
-    res.json({ authToken })
+
+    success=true;
+    res.json({ success,authToken })
+
   } catch (error) {
     console.error(error.meaage)
     res.status(500).send("some error aa gaya")
